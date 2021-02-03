@@ -280,7 +280,7 @@ int main()
 		
 		
 		//render
-		//melonTrans->SetLocalPosition( LERP(glm::vec3(-2.0, 0.0, 0.0), glm::vec3(2.0, 0.0, 0.0), lerpTimer));
+		clockTrans->SetLocalPosition( LERP(glm::vec3(-5.0, 0.0, -5.0), glm::vec3(0.0, 0.0, -5.0), lerpTimer));
 		//tester
 		melonShader->Bind();
 		//melonShader->SetUniformMatrix("u_View", camera->GetView());
