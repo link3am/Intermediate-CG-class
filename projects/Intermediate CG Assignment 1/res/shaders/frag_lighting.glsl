@@ -23,7 +23,7 @@ uniform vec3  u_CamPos;
 uniform	int u_ambB;
 uniform	int u_difB;
 uniform	int u_specB;
-
+uniform	int u_lightB;
 out vec4 frag_color;
 
 
@@ -40,7 +40,9 @@ void main() {
 
 	float dif = max(dot(N, lightDir), 0.0);
 	vec3 diffuse = dif * u_LightCol;
-	
+	if(u_difB>5){
+	diffuse = vec3(0.0f);
+	}
 	
 	// Specular
 	vec3 viewDir  = normalize(u_CamPos - inPos);
@@ -60,7 +62,7 @@ void main() {
 		) * inColor * textureColor.rgb; // Object color
 
 	frag_color = vec4(result, textureColor.a);
-	if(u_difB>5)
+	if(u_lightB>5)
 	{
 	frag_color = vec4(textureColor.rgb, textureColor.a);
 	}

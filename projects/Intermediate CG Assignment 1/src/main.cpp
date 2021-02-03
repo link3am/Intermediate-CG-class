@@ -197,7 +197,7 @@ int main()
 	//melonTrans->SetLocalPosition(glm::vec3(0.0, 0.0, 0.0));
 	melonTrans->SetLocalRotation(glm::vec3(0.0, -90.0, 0.0));
 	Transform::sptr canTrans = Transform::Create();
-	canTrans->SetLocalPosition(glm::vec3(5.0, 0.0, 0.0));
+	canTrans->SetLocalPosition(glm::vec3(5.0, 0.0, -5.0));
 
 	Transform::sptr clockTrans = Transform::Create();
 	clockTrans->SetLocalPosition(glm::vec3(-5.0, 0.0, -5.0));
@@ -216,14 +216,14 @@ int main()
 	glm::vec3 lightPos = glm::vec3(0.0f, 2.0f, 0.0f);
 	glm::vec3 lightCol = glm::vec3(3.0f, 3.0f, 3.0f);
 	float     lightAmbientPow = 0.05f;
-	float     lightSpecularPow = 1.0f;
+	float     lightSpecularPow = 0.8f;
 	glm::vec3 ambientCol = glm::vec3(1.0f);
 	float     ambientPow = 0.1f;
-	float     shininess = 1.0f;
+	float     shininess = 2.0f;
 	int ambB = 0;
 	int difB = 0;
 	int specB = 0;
-	 
+	int lightB = 0;
 	
 	melonShader->SetUniform("u_LightPos", lightPos);
 	melonShader->SetUniform("u_LightCol", lightCol);
@@ -235,7 +235,7 @@ int main()
 	melonShader->SetUniform("u_ambB", ambB);
 	melonShader->SetUniform("u_difB", difB);
 	melonShader->SetUniform("u_specB", specB);
-
+	melonShader->SetUniform("u_lightB", lightB);
 	
 
 	//delta time and fps limit 
@@ -304,19 +304,23 @@ int main()
 			ambB = 10;
 			difB = 10;
 			specB = 10;
+			lightB = 10;
 			melonShader->SetUniform("u_ambB", ambB);
 			melonShader->SetUniform("u_difB", difB);
 			melonShader->SetUniform("u_specB", specB);
+			melonShader->SetUniform("u_lightB", lightB);
 		}
 		if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS)
 		{
 			melonShader->Bind();
 			ambB = 0;
-			difB = 0;
+			difB = 10;
 			specB = 10;
+			lightB = 0;
 			melonShader->SetUniform("u_ambB", ambB);
 			melonShader->SetUniform("u_difB", difB);
 			melonShader->SetUniform("u_specB", specB);
+			melonShader->SetUniform("u_lightB", lightB);
 		}
 		if (glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS)
 		{
@@ -324,9 +328,11 @@ int main()
 			ambB = 10;
 			difB = 0;
 			specB = 0;
+			lightB = 0;
 			melonShader->SetUniform("u_ambB", ambB);
 			melonShader->SetUniform("u_difB", difB);
 			melonShader->SetUniform("u_specB", specB);
+			melonShader->SetUniform("u_lightB", lightB);
 		}
 		if (glfwGetKey(window, GLFW_KEY_4) == GLFW_PRESS)
 		{
@@ -334,9 +340,11 @@ int main()
 			ambB = 0;
 			difB = 0;
 			specB = 0;
+			lightB = 0;
 			melonShader->SetUniform("u_ambB", ambB);
 			melonShader->SetUniform("u_difB", difB);
 			melonShader->SetUniform("u_specB", specB);
+			melonShader->SetUniform("u_lightB", lightB);
 		}
 		//fps limit 
 		if ((thisFrame - lastFrameTime) >= fpsLimit)
