@@ -1,1 +1,0 @@
-Intermediate CG class
