@@ -38,3 +38,5 @@
 **/modules/**
 **/obj/**
 **/AAA/**
+
+!**/premake5.exe
