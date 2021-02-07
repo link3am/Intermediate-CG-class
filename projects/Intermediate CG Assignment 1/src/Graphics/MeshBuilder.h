@@ -1,6 +1,6 @@
 #pragma once
 #include <vector>
-#include "Graphics/VertexArrayObject.h"
+#include <Graphics/VertexArrayObject.h>
 
 template <typename VertType>
 class MeshBuilder

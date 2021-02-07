@@ -1,7 +1,7 @@
 #pragma once
 
 #include <GLM/glm.hpp>
-#include "Graphics/VertexArrayObject.h"
+#include <Graphics/VertexArrayObject.h>
 
 struct VertexPosCol {
 	glm::vec3 Position;

@@ -1,10 +1,6 @@
 #pragma once
-//#include "MeshFactory.h"
-#include "Graphics/VertexArrayObject.h"
-#include <GLM/glm.hpp>
-#include <GLM/gtc/matrix_transform.hpp>
-#include "MeshBuilder.h"
-#include "VertexTypes.h"
+#include "MeshFactory.h"
+
 class ObjLoader
 {
 public:

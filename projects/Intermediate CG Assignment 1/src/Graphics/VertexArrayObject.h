@@ -77,11 +77,10 @@ class VertexArrayObject final
 {
 public:
 	typedef std::shared_ptr<VertexArrayObject> sptr;
-	static inline sptr Create() {
-		return std::make_shared<VertexArrayObject>();
+	template <typename ... TArgs>
+	static inline sptr Create(TArgs&&... args) {
+		return std::make_shared<VertexArrayObject>(std::forward<TArgs>(args)...);
 	}
-	
-public:
 	// We'll disallow moving and copying, since we want to manually control when the destructor is called
 	// We'll use these classes via pointers
 	VertexArrayObject(const VertexArrayObject& other) = delete;

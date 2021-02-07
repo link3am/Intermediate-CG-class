@@ -15,6 +15,7 @@ Shader::~Shader() {
 	if (_handle != 0) {
 		glDeleteProgram(_handle);
 		_handle = 0;
+		LOG_INFO("Deleting shader program");
 	}
 }
 
@@ -172,7 +173,7 @@ void Shader::SetUniform(int location, const glm::bvec4* value, int count) {
 	glProgramUniform4i(location, value->x, value->y, value->z, value->w, 1);
 }
 
-int Shader::__GetUniformLocation(const std::string& name) {
+int Shader::GetUniformLocation(const std::string& name) {
 	// Search the map for the given name
 	std::unordered_map<std::string, int>::const_iterator it = _uniformLocs.find(name);
 	int result = -1;

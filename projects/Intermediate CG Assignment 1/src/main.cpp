@@ -1,5 +1,3 @@
-//I am Jin Chan
-
 #include <Logging.h>
 #include <iostream>
 //
@@ -9,17 +7,20 @@
 #include <filesystem>
 #include <json.hpp>
 #include <fstream>
+#include <vector>
 //
 #include <GLM/glm.hpp>
 #include <GLM/gtc/matrix_transform.hpp>
 #include <GLM/gtc/type_ptr.hpp>
-//vector
-#include <vector>
+
+//cg
+#include"Graphics/post/PostEffect.h"
+#include"Graphics/post/GreyscaleEffect.h"
 #include "Graphics/IBuffer.h"
 #include "Graphics/VertexBuffer.h"
 #include "Graphics/VertexArrayObject.h"
 #include "Graphics/Shader.h"
-#include "Gameplay/Transform.h"
+#include "Graphics/Transform.h"
 #include "Graphics/MeshBuilder.h"
 #include "Graphics/ObjLoader.h"
 #include "Graphics/VertexTypes.h"
@@ -27,7 +28,7 @@
 #include "Graphics/Texture2D.h"
 #include "Graphics/Texture2DData.h"
 //Camera
-#include <Gameplay/Camera.h>
+#include <Graphics/Camera.h>
 //imgui
 #include "imgui.h"
 #include "imgui_impl_opengl3.cpp"
@@ -58,9 +59,13 @@ void GlDebugMessage(GLenum source, GLenum type, GLuint id, GLenum severity, GLsi
 
 GLFWwindow* window;
 Camera::sptr camera = nullptr;
+PostEffect basiceffect;
+GreyscaleEffect greyScale;
 void GlfwWindowResizedCallback(GLFWwindow* window, int width, int height) {
 	glViewport(0, 0, width, height);
-	//camera->ResizeWindow(width, height);
+	camera->ResizeWindow(width, height);
+	//basiceffect.Reshape(width, height);
+	//greyScale.Reshape(width, height);
 }
 bool initGLFW() {
 	if (glfwInit() == GLFW_FALSE) {
@@ -203,6 +208,7 @@ int main()
 	clockTrans->SetLocalPosition(glm::vec3(-5.0, 0.0, -5.0));
 
 	//////////////////////////////////////////camera
+	
 	camera = Camera::Create();
 	glm::vec3 cameraPosition = glm::vec3(0, 1, 3);
 	camera->SetPosition(cameraPosition); // Set initial position
@@ -236,7 +242,18 @@ int main()
 	melonShader->SetUniform("u_difB", difB);
 	melonShader->SetUniform("u_specB", specB);
 	melonShader->SetUniform("u_lightB", lightB);
+
+	//////////////A2 framebuffer
+	int width, height;
 	
+	
+	
+	glfwGetWindowSize(window, &width, &height);
+	
+	basiceffect.Init(width, height);
+	greyScale.Init(width, height);
+
+
 
 	//delta time and fps limit 
 	double lastFrame = glfwGetTime();
@@ -275,14 +292,16 @@ int main()
 			lerpTimer = 0.0;
 			forward = true;
 		}
-
+		//A2 3am
+		basiceffect.Clear();
+		greyScale.Clear();
 	
 		
 		
 		//render
 		clockTrans->SetLocalPosition( LERP(glm::vec3(-5.0, 0.0, -5.0), glm::vec3(0.0, 0.0, -5.0), lerpTimer));
 		//tester
-		melonShader->Bind();
+		//melonShader->Bind();
 		//melonShader->SetUniformMatrix("u_View", camera->GetView());
 		melonShader->SetUniform("u_CamPos", camera->GetPosition());
 		melonShader->SetUniform("s_tex", 0);
@@ -291,13 +310,21 @@ int main()
 		
 		
 		melonShader->SetUniform("u_Shininess", shininess);
-	
-		//end
+		//A2
+		basiceffect.BindBuffer(0);
+		//render all
 		RenderVAO(melonShader, melonVAO, camera, melonTrans,melonTex);
 		RenderVAO(canShader, canVAO, camera, canTrans,canTex);
 		RenderVAO(clockShader, clockVAO, camera, clockTrans,clockTex);
 		
+		//A2
+		basiceffect.UnbindBuffer();
 
+		//basiceffect.DrawToScreen();
+		greyScale.ApplyEffect(&basiceffect);
+
+		greyScale.DrawToScreen();
+		//
 		if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS)
 		{
 			melonShader->Bind();

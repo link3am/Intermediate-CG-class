@@ -73,12 +73,10 @@ VertexArrayObject::sptr ObjLoader::LoadFromFile(const std::string& filename, con
 					char tempChar;
 					vertexIndices = glm::ivec3(0);
 					stream >> vertexIndices.x >> tempChar >> vertexIndices.y >> tempChar >> vertexIndices.z;
-					
 					// The OBJ format can have negative values, which are a reference from the last added attributes
 					if (vertexIndices.x < 0) { vertexIndices.x = positions.size() - 1 + vertexIndices.x; }
 					if (vertexIndices.y < 0) { vertexIndices.y = textureCoords.size() - 1 + vertexIndices.y; }
 					if (vertexIndices.z < 0) { vertexIndices.z = normals.size() - 1 + vertexIndices.z; }
-					
 					// We can construct a key using a bitmask of the attribute indices
 					// This let's us quickly look up a combination of attributes to see if it's already been added
 					// Note that this limits us to 2,097,150 unique attributes for positions, normals and textures
