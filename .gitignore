@@ -39,4 +39,8 @@
 **/obj/**
 **/AAA/**
 
-!**/premake5.exe
+**/premake5.exe
+**/clean.bat
+**/New Project.bat
+**/Premake5.lua
+**/premake_build.bat
